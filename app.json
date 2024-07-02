@@ -1,4 +1,42 @@
 {
   "name": "MusicDrive",
-  "displayName": "MusicDrive"
+  "displayName": "MusicDrive",
+  "ios": {
+    "bundleIdentifier": "org.reactjs.native.example.MusicDrive",
+    "buildNumber": "1",
+    "infoPlist": {
+      "UIBackgroundModes": [
+        "audio",
+        "fetch",
+        "remote-notification",
+        "processing"
+      ]
+    }
+  },
+  "expo": {
+    "extra": {
+      "eas": {
+        "projectId": "a08c9ce1-9856-46bf-abfe-409217637b55"
+      }
+    },
+    "runtimeVersion": "1.0.0",
+    "updates": {
+      "url": "https://u.expo.dev/a08c9ce1-9856-46bf-abfe-409217637b55"
+    },
+    "android": {},
+    "ios": {
+      "bundleIdentifier": "org.reactjs.native.example.MusicDrive",
+      "buildNumber": "1",
+      "infoPlist": {
+        "UIBackgroundModes": [
+          "audio",
+          "fetch",
+          "remote-notification",
+          "processing"
+        ]
+      }
+    }
+  }
 }
+
+
