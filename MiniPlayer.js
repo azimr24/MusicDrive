@@ -74,7 +74,6 @@ export const MiniPlayer = ({navigation, routeName}) => {
         if (repeat !== 2) {
           await handleNextSong();
         } else {
-          console.log(repeat);
           await currSong.current.replayAsync();
         }
       }

@@ -11,6 +11,7 @@ import LinearGradient from 'react-native-linear-gradient';
 import Slider from '@react-native-community/slider';
 import {useMusicPlayer} from './MusicPlayerContext.js';
 import DraggableFlatList from 'react-native-draggable-flatlist';
+import { useEffect, useState } from 'react';
 
 const {width: SCREEN_WIDTH, height: SCREEN_HEIGHT} = Dimensions.get('window');
 
@@ -52,10 +53,19 @@ export const Queue = ({navigation}) => {
     repeatSongs,
   } = useMusicPlayer();
   const numSongs = songs.length;
+  const [ queue, setQueue ] = useState([])
+  const [dragging, setDragging] = useState(null)
+
 
   const handleReturn = () => {
     navigation.goBack();
   };
+
+
+  useEffect(() => {
+    const newQueue = songs.slice(gCurrSongIndex + 1, numSongs)
+    setQueue(() => newQueue)
+  }, [gCurrSongIndex, songs])
 
   return (
     <SafeAreaView style={styles.background}>
@@ -91,25 +101,33 @@ export const Queue = ({navigation}) => {
         </View>
         <Text style={styles.nowPlayingText}>Next In Queue</Text>
         <DraggableFlatList
-          data={songs.slice(gCurrSongIndex + 1, numSongs)}
+          data={queue}
           style={styles.draggableFL}
           onDragEnd={({data}) => {
-            data.unshift(songs[gCurrSongIndex]);
-            setSongs(data);
+            // setQueue(data)
+            const currSongIndex = gCurrSongIndex
+            setSongs(songs.map((songObject, index) => {
+                if (index <= currSongIndex) {
+                    return songObject
+                } else {
+                    return data[index - (currSongIndex + 1)]
+                }
+            }))
+            setDragging(null)
           }}
           keyExtractor={item => item.title}
-          renderItem={({item, drag, isActive}) => {
+          renderItem={({item, drag}) => {
             return (
               <View
                 style={[
                   styles.nextToQueue,
-                  {backgroundColor: isActive ? 'rgb(25, 25, 25)' : 'black'},
+                  {backgroundColor: dragging === item.title ? 'rgb(25, 25, 25)' : 'black'},
                 ]}>
                 <View style={styles.queuedInfoContainer}>
                   <Text
                     style={[styles.currSongName, {color: 'white'}]}
                     ellipsizeMode="tail"
-                    numberOfLines={1}>
+                    numberOfLines={1}> 
                     {item.title}
                   </Text>
                   <Text style={styles.currSongArtist}>
@@ -117,7 +135,10 @@ export const Queue = ({navigation}) => {
                   </Text>
                 </View>
                 <Pressable
-                  onLongPress={drag}
+                  onTouchStart={() => {
+                    setDragging(item.title)
+                    drag()
+                }}
                   style={styles.addToQueuePressable}>
                   <Image source={dragButton} style={styles.dragImage}></Image>
                 </Pressable>

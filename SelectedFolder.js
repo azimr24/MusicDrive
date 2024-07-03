@@ -85,37 +85,37 @@ export const SelectedFolder = ({navigation, route}) => {
     }
   };
 
-  const loadSong = async index => {
-    if (songs.length > 0) {
-      const {song, url} = songs[index];
-      try {
-        const {isLoaded} = await song.getStatusAsync();
-        if (!isLoaded) {
-          await song.loadAsync({uri: url});
-          console.log(isLoaded, index);
-          setProgress(p => p + 1 / songs.length);
-        }
-      } catch (error) {
-        console.log(error);
-      }
-    }
-  };
+//   const loadSong = async index => {
+//     if (songs.length > 0) {
+//       const {song, url} = songs[index];
+//       try {
+//         const {isLoaded} = await song.getStatusAsync();
+//         if (!isLoaded) {
+//           await song.loadAsync({uri: url});
+//           console.log(isLoaded, index);
+//           setProgress(p => p + 1 / songs.length);
+//         }
+//       } catch (error) {
+//         console.log(error);
+//       }
+//     }
+//   };
 
-  // const loadSong = async (index) => {
-  //     if (songs.length > 0) {
-  //         const { song, url } = songs[index]
-  //         return song.getStatusAsync().then(({isLoaded}) => {
-  //             if (!isLoaded) {
-  //                 return song.loadAsync({uri: url}).then(() => {
-  //                     console.log(isLoaded, index)
-  //                     setProgress(p => p + (1 / songs.length))
-  //                 }).catch((error) => {
-  //                     console.error(`Error loading song at index ${index}:`, error);
-  //                 });
-  //             }
-  //         })
-  //     }
-  // }
+  const loadSong = async (index) => {
+      if (songs.length > 0) {
+          const { song, url } = songs[index]
+          return song.getStatusAsync().then(({isLoaded}) => {
+              if (!isLoaded) {
+                  return song.loadAsync({uri: url}).then(() => {
+                      console.log(isLoaded, index)
+                      setProgress(p => p + (1 / songs.length))
+                  }).catch((error) => {
+                      console.error(`Error loading song at index ${index}:`, error);
+                  });
+              }
+          })
+      }
+  }
 
   const establishSongOrder = startIndex => {
     const songOrder = [currSongs[startIndex]];
@@ -143,12 +143,12 @@ export const SelectedFolder = ({navigation, route}) => {
     const loadSongs = async () => {
       if (loading) {
         await loadAndPlayFirstSong();
-        // const songsToBeLoaded = []
+        const songsToBeLoaded = []
         for (let i = 1; i < songs.length; i++) {
-          await loadSong(i);
+          songsToBeLoaded.push(loadSong(i));
         }
 
-        // await Promise.all(songsToBeLoaded)
+        await Promise.all(songsToBeLoaded)
         setSongsBaseOrder(() => songs);
         setLoading(() => false);
         setCanPress(() => false);

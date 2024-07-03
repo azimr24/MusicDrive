@@ -6,7 +6,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const accessTokenTimeLimit = 3599000;
 const CLIENT_ID =
-  '1038734147598-o8rsehouohndksfugbnk9pg3oc8npnv7.apps.googleusercontent.com';
+  'YOUR-CLIENT-ID-HERE';
 
 export const signInWithGoogle = async () => {
   try {

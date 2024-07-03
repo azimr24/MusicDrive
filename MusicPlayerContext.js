@@ -114,12 +114,17 @@ export const MusicPlayerProvider = ({children}) => {
       if (isLoaded) {
         isProcessing.current = true;
 
+        if (repeat === 2) {
+            setRepeat(() => 1)
+        }
+
         if (gCurrSongIndex !== numSongs - 1 || repeat === 1) {
           await currSong.current.stopAsync();
           setGCurrSongIndex(currSongIndex => (currSongIndex + 1) % numSongs);
           currSong.current = song;
           setTitle(() => title);
           console.log(title);
+          setPosition(() => 0)
           setDuration(() => durationMillis);
           await playSong();
         } else {
@@ -142,6 +147,9 @@ export const MusicPlayerProvider = ({children}) => {
       const {isLoaded, durationMillis} = await song.getStatusAsync();
       if (isLoaded) {
         isProcessing.current = true;
+        if (repeat === 2) {
+            setRepeat(() => 1)
+        }
 
         await currSong.current.stopAsync();
         console.log('curr', gCurrSongIndex);
