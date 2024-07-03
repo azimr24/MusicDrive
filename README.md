@@ -19,7 +19,7 @@ Music Drive is a simple music player that plays music directly from Google Drive
 
 ## Usage Video
 Watch how Music Drive works and explore its features:
-[![Watch the video](https://drive.google.com/uc?export=view&id=YourImageFileID)](https://drive.google.com/file/d/1GTj2dvHRpnzp35DZgi5xXSIKdoWjeppa/view?usp=sharing)
+[![Watch the video](https://drive.google.com/file/d/1GTj2dvHRpnzp35DZgi5xXSIKdoWjeppa/view?usp=sharing)
 
 ## Notes
 - A google cloud project is required to use the Google Drive API. You can create one [here](https://console.cloud.google.com/) as you require a client ID (and its reverse) to authenticate with Google in Info.plist and GoogleService-Info.plist
